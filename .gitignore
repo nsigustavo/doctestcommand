@@ -1,0 +1,6 @@
+*~
+*.pyc
+dist
+doctestcommand.egg-info
+.bzr*
+build
