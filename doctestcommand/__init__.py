@@ -1,15 +1,22 @@
-from glob import glob
 import doctest
 import os
 import sys
 
-
 def doctest_runner():
-    sys.path = [package(os.getcwd())] + sys.path 
+    exec_path = os.getcwd()
+    sys.path.append(exec_path)
     files = sys.argv[1:] or list_doc_test(dir=os.getcwd())
     for file in files:
-        file_path = os.path.join(os.getcwd(), file)
-        print file_path, "\n",doctest.testfile(file_path,optionflags=doctest.REPORT_ONLY_FIRST_FAILURE + doctest.ELLIPSIS, module_relative=False), "\n"
+        file_path = os.path.join(exec_path, file)
+        if file.startswith(exec_path):
+            relative_path = file[len(exec_path):]
+        print "%-50.50s#%s"%(
+                    relative_path,
+                    doctest.testfile(
+                        file_path,
+                        optionflags=doctest.REPORT_ONLY_FIRST_FAILURE
+                                   +doctest.ELLIPSIS,
+                        module_relative=False))
 
 
 def list_doc_test(dir):
@@ -21,16 +28,6 @@ def list_doc_test(dir):
         elif os.path.isdir(path):
             tests += list_doc_test(path)
     return tests
-
-
-def package(dir):
-    last_dir = os.path.dirname(dir)
-    init = os.path.join(dir, '__init__.py')
-    last_init = os.path.join(last_dir, '__init__.py')
-    if os.path.isfile(last_init) == False and os.path.isfile(init) == False:
-        return dir
-    else:
-        return package(last_dir)
 
 
 
