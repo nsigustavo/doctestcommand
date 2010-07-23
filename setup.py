@@ -18,7 +18,7 @@ setup(name='doctestcommand',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          # -*- Extra requirements: -*-
+         'termcolor',
       ],
       entry_points={
             'console_scripts': ['doctest = doctestcommand:doctest_runner']},
