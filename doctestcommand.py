@@ -2,6 +2,7 @@ import doctest
 import os
 import sys
 
+
 def doctest_runner():
     exec_path = os.getcwd()
     sys.path.append(exec_path)
@@ -10,13 +11,15 @@ def doctest_runner():
         file_path = os.path.join(exec_path, file)
         if file.startswith(exec_path):
             relative_path = file[len(exec_path):]
+        else:
+            relative_path = exec_path
         print "%-50.50s#%s"%(
-                    relative_path,
-                    doctest.testfile(
-                        file_path,
-                        optionflags=doctest.REPORT_ONLY_FIRST_FAILURE
-                                   +doctest.ELLIPSIS,
-                        module_relative=False))
+                relative_path,
+                doctest.testfile(
+                    file_path,
+                    optionflags=doctest.REPORT_ONLY_FIRST_FAILURE
+                               +doctest.ELLIPSIS,
+                    module_relative=False))
 
 
 def list_doc_test(dir):
